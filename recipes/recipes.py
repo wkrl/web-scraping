@@ -34,7 +34,7 @@ def get_recipes(number_of_pages):
 				try:
 					# title and url
 					title_not_clean = item.a.img["alt"].split(' -')[0]
-					title = title_not_clean.replace('and Video', '').replace('Recipe', '')
+					title = title_not_clean.replace('and Video', '').replace('Recipe', '').strip()
 					url = item.a['href']
 					# new request of specific recipe for more information 
 					response = requests.get(url).text 
@@ -44,7 +44,7 @@ def get_recipes(number_of_pages):
 					# image, does not include videos
 					img = soup.find('img',{'class','rec-photo'})['src']
 					# instructions
-					steps = [step.get_text().rstrip() for step in soup.find_all('span',{'class','recipe-directions__list--item'})]
+					steps = [step.get_text().rstrip() for step in soup.find_all('span',{'class','recipe-directions__list--item'})][:-1]
 					#ingredients 
 					ingredients = [item.get_text().rstrip() for item in soup.find_all('span', {'class','recipe-ingred_txt'})[:-3]]
 					print 'Adding: ' + title
@@ -52,7 +52,7 @@ def get_recipes(number_of_pages):
 				except: 
 					continue
 
-get_recipes(10)
+get_recipes(2)
 result = json.dumps(dict)
 with open ('output.json','wb+') as file: 
 	file.write(result)
