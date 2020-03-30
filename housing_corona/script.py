@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
+import json
 
 base_url = 'https://newyork.craigslist.org/search/apa?s='
+ads = []
 
 for i in range(1): 
     response = requests.get(base_url+str(i)).text
@@ -17,9 +19,13 @@ for i in range(1):
                 'ad_date': ad.findChild('p').findChild('time').get('datetime'),
                 'ad_br_size': ad.findChild('p').find('span', {'class': 'result-meta'}).find('span', {'class': 'housing'}).text,
                 'ad_location': ad.findChild('p').find('span', {'class': 'result-meta'}).find('span', {'class': 'result-hood'}).text
-            }                
+            }           
+            ads += [{'id': ad_id, 'url': ad_url, 'title': ad_title, 'price': ad_price,'meta': ad_meta}]            
         except:
             continue
+
+with open('data.json', 'w') as outfile:
+    json.dump(ads, outfile)
 
 
 
