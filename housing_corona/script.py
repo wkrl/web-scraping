@@ -1,0 +1,27 @@
+from bs4 import BeautifulSoup
+import requests
+
+base_url = 'https://newyork.craigslist.org/search/apa?s='
+
+for i in range(1): 
+    response = requests.get(base_url+str(i)).text
+    soup = BeautifulSoup(response,'lxml')
+    apartment_ads = soup.findAll('li', {'class': 'result-row'})   
+    for ad in apartment_ads: 
+        try:
+            ad_id = ad.get('data-pid')
+            ad_url = ad.findChild('a').get('href')
+            ad_title = ad.findChild('p').findChild('a').text  
+            ad_price = ad.findChild('a').findChild('span').text
+            ad_meta = {
+                'ad_date': ad.findChild('p').findChild('time').get('datetime'),
+                'ad_br_size': ad.findChild('p').find('span', {'class': 'result-meta'}).find('span', {'class': 'housing'}).text,
+                'ad_location': ad.findChild('p').find('span', {'class': 'result-meta'}).find('span', {'class': 'result-hood'}).text
+            }                
+        except:
+            continue
+
+
+
+
+
