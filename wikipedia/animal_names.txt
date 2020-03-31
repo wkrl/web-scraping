@@ -173,6 +173,7 @@ Nine-banded armadillo
 Octopus
 Okapi
 Opossum
+Orangutan
 Oryx
 Ostrich
 Otter
@@ -241,6 +242,7 @@ Toucan
 Turaco
 Domesticated turkey
 Turtle
+Umbrellabird
 Vicuña
 Thelyphonida
 Viper
